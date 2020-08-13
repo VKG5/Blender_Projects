@@ -10,6 +10,7 @@
 # Precompiled Headers
 *.gch
 *.pch
+*.gz
 
 # Compiled Dynamic libraries
 *.so
@@ -25,6 +26,7 @@
 *.la
 *.a
 *.lib
+*.uni
 
 # Executables
 *.exe
@@ -35,6 +37,9 @@
 *.png
 *.jpeg
 *.jpg
+*.tif
+*.exr
+*.hdr
 
 #Videos
 *.mp4
