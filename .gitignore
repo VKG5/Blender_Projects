@@ -27,6 +27,7 @@
 *.a
 *.lib
 *.uni
+*.vdb
 
 # Executables
 *.exe
