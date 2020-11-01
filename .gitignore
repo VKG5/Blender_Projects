@@ -47,4 +47,4 @@
 *.mkv
 
 #Google Maps Packages
-.gpkg
+*.gpkg
