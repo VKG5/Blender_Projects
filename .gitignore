@@ -45,3 +45,6 @@
 #Videos
 *.mp4
 *.mkv
+
+#Google Maps Packages
+.gpkg
