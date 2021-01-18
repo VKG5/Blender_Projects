@@ -49,5 +49,10 @@
 # Substance Painter
 *.spp
 
-#Google Maps Packages
+# Google Maps Packages
 *.gpkg
+
+# Course Files
+*.7z
+*.ts
+*.ZTL
