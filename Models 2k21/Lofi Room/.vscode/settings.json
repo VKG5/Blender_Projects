@@ -1,0 +1,13 @@
+
+{
+    "files.associations": {
+        "*.glsl": "cpp"
+    },
+    "C_Cpp.default.includePath": ["C:\\Users\\varun\\AppData\\Roaming\\Blender Foundation\\Blender\\2.93\\scripts\\addons\\BlenderMalt\\.MaltPath\\Malt\\Shaders",""],
+    "C_Cpp.default.forcedInclude": ["C:\\Users\\varun\\AppData\\Roaming\\Blender Foundation\\Blender\\2.93\\scripts\\addons\\BlenderMalt\\.MaltPath\\Malt\\Shaders\\Intellisense\\intellisense.glsl"],
+    "C_Cpp.autoAddFileAssociations": true,
+    "C_Cpp.default.cppStandard": "c++03",
+    "C_Cpp.default.compilerPath": "",
+    "C_Cpp.default.browse.limitSymbolsToIncludedHeaders": true,
+    "C_Cpp.errorSquiggles": "Disabled",
+}
