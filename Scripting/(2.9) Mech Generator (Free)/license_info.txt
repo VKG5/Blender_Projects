@@ -1,0 +1,12 @@
+The script is governed by the GPL license.
+The artwork is not governed by the GPL license.
+
+Commercial usage of assets:
+You are not allowed to re-sell the artwork that is distributed in the resources. 
+You are allowed to package it as a smaller part of a commercial project like a game, 
+but you can’t sell re-sell the models in their original form.
+
+You are, however, allowed to sell the generation results if those results are only using parts that you yourself have created.
+
+Strictly speaking, if it contains any of my artwork, then you are not allowed to re-sell it.
+But if it’s using only your artwork, then you can sell it.
