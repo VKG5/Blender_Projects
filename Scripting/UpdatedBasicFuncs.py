@@ -1,28 +1,11 @@
-'''
-To call this file, load it into the Blender text editor and the use the following command/code
-
-my_module = bpy.data.texts[<nameOfModule>"Basic_Funcs.py"].as_module()
-
-Then use my_module to access the function offered!
-
-# Getting path
-dir = os.path.dirname(D.filepath)
-'''
-
-
 import bpy
 from math import radians
 import os
 
-'''
-Starting Code
-Global Variables, paths, boilerplate code
-'''
 # Macros
 C = bpy.context
 D = bpy.data
 O = bpy.ops
-
 
 ''' 
 This is just some general code to set properties/modifiers to the objects that 
@@ -32,7 +15,7 @@ Will be used later on in the process
 # Deleting every object from the scene
 def clear():
     ## Just for security
-    #D.texts['summon.py'].use_fake_user = True
+    #bpy.data.texts['summon.py'].use_fake_user = True
     
     O.object.select_all(action='SELECT')
     
@@ -61,7 +44,7 @@ def render_quality(engine, samples):
         
         ''' 
         Only enable this section when required
-        '''
+        
         # Setting the quality
         ## Shadows
         D.scenes['Scene'].eevee.shadow_cube_size = '1024'
@@ -82,41 +65,8 @@ def render_quality(engine, samples):
         
         # Baking the light, this will take a lot of time depending on the parameters above
         O.scene.light_cache_bake()
+        '''
         
-        
-## Physics properties
-# Setting rigidbody contraints 
-def set_rigidbody_constraints(obj, rtype):
-    # Getting the active object's name
-    name = obj.name
-    #print(name)
-    
-    # Adding the rigidbody property
-    O.rigidbody.object_add(type = rtype)
-    
-# Setting Physics properties   
-def set_physics(obj, type):
-    obj.modifiers.new(obj.name+type, type)
-    
-# Adding a camera
-def add_camera(loc, rot, translate_loc):
-    O.object.camera_add(location=camera_loc, rotation=camera_rot)
-    
-    # Translating the object
-    O.transform.translate(value=translate_loc)
-    
-    # Instancing the active object
-    ao = C.active_object
-
-
-
-
-'''
-This part includes the driver code
-Starting from importing the models to translating them in space to their proper location
-And correcting their origin points
-'''
-## Driver Code
 # Import Code
 def importModel(filePath, name):
     # Debugging code
@@ -127,27 +77,8 @@ def importModel(filePath, name):
     O.import_scene.import_pcd(filepath=filePath)
     
     # Renaming the object
-    C.object.name =  name
-
-# Importing the Armature
-def importArmature(filePath, name):
-    O.import_scene.fbx(filepath=filePath)
+    C.object.name = name
     
-    # Renaming the armature
-    if(path=="Walking_Trial.fbx" or path=="Walking.fbx" or path=="WalkingInPlace.fbx"):
-        C.object.name = "armature"
-    
-    else:
-        C.object.name = "metarig"
-    
-# Installing the add-on
-def installAddOn(fileName):
-    O.preferences.addon_install(filepath=dir+"\\"+fileName+".zip")
-    O.preferences.addon_enable(module=fileName)
-    
-    # Debugging
-    print("Successfully Installed the add-on:", fileName)
-
 # Centering the model
 def centreModel(model, scene):
     # set the object to (0,0,0)
@@ -179,7 +110,7 @@ def preprocessing(model):
     centreModel(model, scene)
     
     # Applying the transforms
-    O.object.transform_apply(location=False, rotation=True, scale=True)   
+    O.object.transform_apply(location=False, rotation=True, scale=True)
 
 
 '''
@@ -220,9 +151,9 @@ def apply_modifiers():
                 
                 else:
                     O.object.modifier_apply(modifier=modifiers.name)
-
-# To save the file
-def saveFile(fileName):
+            
+# To save the file        
+def save_file(name):
     # Save the file
-    O.wm.save_as_mainfile(filepath=dir+"\\{}".format(fileName), filter_blender=False)
+    O.wm.save_as_mainfile(filepath=dir+name, filter_blender=False)
     
