@@ -1,11 +1,11 @@
 # To register this as an add-on!
 bl_info = {
-    # required
+    # Required
     'name': 'Example Addon',
     'description': 'A basic addon',
     'blender': (3, 0, 0),
     'category': 'Object',
-    # optional
+    # Optional
     'location': 'View3D',
     'version': (1, 0, 0),
     'author': 'Varun Kumar Gupta',
@@ -19,13 +19,47 @@ import bpy
 # Properties/Inputs for our add-on
 # Format : ("Name", The bpy.property relevant to the field - Int, String, Float, etc.)
 PROPS = [
-    ('Sectors', bpy.props.IntProperty(name='Sectors', default=1, min=1, max=3)),
-    ('API Link', bpy.props.StringProperty(name='apiLink'))
+    ('sectors', bpy.props.IntProperty(name='Sectors', default=1, min=1, max=3)),
+    ('apiLink', bpy.props.StringProperty(name='API Link'))
 ]
 
-# Operator Class
-#class f1TrackProps(bpy.types.Operator):
+'''
+Functions calls/Dependent Functions
+The functions that will be used by the operator class
+'''
+def trial_func(params):
+    ## Debugging
+    #print("Types of the parameters : %s, %s" % (type(params[0]), type(params[1])))
+    pass
 
+
+'''
+Class that actually calls all the necessary code
+'''
+# Operator Class
+class f1TrackProps(bpy.types.Operator):
+    bl_idname = "opr.generate_f1_track"
+    bl_label = "Generate F1 Track"
+    
+    def execute(self, context):
+        # Accessing the values from the UI
+        scene = context.scene
+        params = (
+            scene.sectors,
+            scene.apiLink
+        )
+        
+        ## Debugging
+        #print("Hey!")
+        
+        trial_func(params)
+        
+        return {'FINISHED'}
+
+
+'''
+Class that generates the UI 
+'''            
 # UI CLASS
 class f1TrackDemoUI(bpy.types.Panel):
     # Creates a side panel in the 3D Viewport under "Misc"    
@@ -36,15 +70,24 @@ class f1TrackDemoUI(bpy.types.Panel):
     
     # To draw/create the actual panel
     def draw(self, context):
+        
+        # Generating the fields that would be visible in the UI Panel
         col = self.layout.column()
         for(prop_name, _) in PROPS:
             row = col.row()
             row.prop(context.scene, prop_name)
+        
+        col.operator('opr.generate_f1_track', text='Generate')
+        
 
+'''
+Driver Code
+This part includes all the calls and registrations (Without which the add-on won't work!
+'''
 # To automate the instlalation and uninstallation of multiple scripts/classes!
 # Just add the class name in this list
 CLASSES = [
-#    f1TrackProps,
+    f1TrackProps,
     f1TrackDemoUI
 ]
         
