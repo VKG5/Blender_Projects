@@ -14,13 +14,25 @@ bl_info = {
 
 import bpy
 
+# Macros
+D = bpy.data
+C = bpy.context
+O = bpy.ops
+
 '''Main Code starts HERE'''
 # GLOBAL VARIABLES
 # Properties/Inputs for our add-on
 # Format : ("Name", The bpy.property relevant to the field - Int, String, Float, etc.)
 PROPS = [
     ('sectors', bpy.props.IntProperty(name='Sectors', default=1, min=1, max=3)),
-    ('apiLink', bpy.props.StringProperty(name='API Link'))
+    ('apiLink', bpy.props.StringProperty(name='API Link')),
+    ('dropList', bpy.props.EnumProperty(
+                                name='Track Type',
+                                description = 'Selection a track preset',
+                                items = [
+                                    ('Track001', 'Melbourne', ''),
+                                    ('Track002', 'Texas', '')
+                                ] ) )
 ]
 
 '''
@@ -30,6 +42,9 @@ The functions that will be used by the operator class
 def trial_func(params):
     ## Debugging
     #print("Types of the parameters : %s, %s" % (type(params[0]), type(params[1])))
+
+    ## Debugging
+    #print(type(C.scene.dropList))
     pass
 
 
