@@ -37,7 +37,18 @@ def clear():
     O.object.select_all(action='SELECT')
     
     O.object.delete()
+
+# For clearing the outliner
+def removeCollections():
+    # Deleting all collections
+    for coll in bpy.data.collections: 
+        ## Debugging
+        #print(coll.name)
         
+        # If it is a valid collection, then remove it
+        if(coll):
+            bpy.data.collections.remove(coll)
+
 # Clearing the scene
 def deleteAll():
     # Checking if scene is already empty
