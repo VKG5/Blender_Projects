@@ -148,6 +148,21 @@ Starting from importing the models to translating them in space to their proper 
 And correcting their origin points
 '''
 ## Driver Code
+# Importing collections from other porjects
+# To import the track data from another .blend file
+def importCollection(path, name):
+    filePath = dir+path
+    fileType = "Collection"
+    collectionName = name
+    
+    O.wm.append(
+        filepath = os.path.join(filePath, fileType, collectionName),
+        directory = os.path.join(filePath, fileType),
+        filename = collectionName
+    )
+    
+    print("Successfully imported the collection %s!" % name)
+
 # Importing the model
 def importModel(fileName, name):
     O.import_scene.import_pcd(filepath=dir+"\\{}".format(fileName))
