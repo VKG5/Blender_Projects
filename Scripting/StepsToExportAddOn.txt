@@ -1,0 +1,22 @@
+1. Change all module links to 
+
+from . import <moduleName.py> as <nameYouWantToUse>
+
+links
+
+
+2. Change the 
+
+bpy.context -> context in the __init__.py
+ 
+file (because we are taking into account the context of the script rather than the blend file running
+
+
+3. Change the 
+
+dir = os.path.dirname(os.path.realpath(__filepath__))
+
+to get the actual path (The path where the file is currently present
+
+
+4. Remove comments from bl_info 
