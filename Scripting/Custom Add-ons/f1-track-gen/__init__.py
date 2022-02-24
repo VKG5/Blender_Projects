@@ -7,7 +7,7 @@ bl_info = {
     'location': "3D Viewport",
     'description': 'A simple add-on to generate F1 tracks based off of API Data',
     'warning': '',
-    'wiki_url': '',
+    'wiki_url': 'https://github.com/VKG5/F1-Track-Gen',
     'category': 'Object',
 }
 
