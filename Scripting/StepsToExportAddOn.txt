@@ -20,3 +20,8 @@ to get the actual path (The path where the file is currently present
 
 
 4. Remove comments from bl_info 
+
+
+5. Change variable C, D, O to the original annotations -> bpy.context, bpy.data, bpy.ops****
+
+**** - Very important step, as these variables become '_RestrictData' when installing and running 
