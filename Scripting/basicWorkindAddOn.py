@@ -85,7 +85,14 @@ class f1TrackDemoUI(bpy.types.Panel):
     
     # To draw/create the actual panel
     def draw(self, context):
-        
+        '''
+        If you want a section heading, then use the following code:
+        self.layout.label(test="Heading of the Section")
+        col = self.layout.column()
+
+        **Use this code for each susequent section!
+        '''
+
         # Generating the fields that would be visible in the UI Panel
         col = self.layout.column()
         for(prop_name, _) in PROPS:

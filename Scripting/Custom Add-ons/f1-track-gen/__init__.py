@@ -118,6 +118,8 @@ class f1TrackDemoUI(bpy.types.Panel):
     # To draw/create the actual panel
     def draw(self, context):
         
+        # Label for a particular section
+        
         # Generating the fields that would be visible in the UI Panel
         col = self.layout.column()
         for(prop_name, _) in PROPS:

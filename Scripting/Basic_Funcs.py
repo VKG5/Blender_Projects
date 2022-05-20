@@ -226,3 +226,6 @@ def saveFile(fileName):
     # Save the file
     O.wm.save_as_mainfile(filepath=dir+"\\{}".format(fileName), filter_blender=False)
     
+## IF YOU ARE MODIFYING ANY MODIFIERS PROPERTIES USING PYTHON
+## PUT THE FOLLOWING LINE OF CODE SUBSEQUENT TO ANY PROPERTY CHANGE!
+## bpy.context.object.update_tag()
