@@ -99,6 +99,8 @@ class f1TrackDemoUI(bpy.types.Panel):
             row = col.row()
             row.prop(context.scene, prop_name)
         
+        # To resize the button (size_x or size_y)
+        col.size_y = 2
         col.operator('opr.generate_f1_track', text='Generate')
         
 
