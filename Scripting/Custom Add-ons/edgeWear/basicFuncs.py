@@ -33,23 +33,18 @@ def removeCollections():
 def deleteAll():
     # Checking if scene is already empty
     if(len(bpy.data.scenes['Scene'].objects) > 0):
-        # Checking if the object is selcted
-        if(bpy.ops.object.select_all.poll()):
-            # Selecting everything in case nothing was selected
-            bpy.ops.object.select_all(action='SELECT')
+         # Selecting everything in case nothing was selected
+        bpy.ops.object.select_all(action='SELECT')
             
-            # Setting mode to OBJECT in case we are in any other mode
-            bpy.ops.object.mode_set(mode='OBJECT')
-            
-            # Deleting everything that was present 
-            bpy.ops.object.select_all(action='SELECT')
-            bpy.ops.object.delete()
-            
-            ## Logging
-            print("Successfully deleted the objects!")
+        # Setting mode to OBJECT in case we are in any other mode
+        bpy.ops.object.mode_set(mode='OBJECT')
         
-        else:
-            print("Select one object")
+        # Deleting everything that was present 
+        bpy.ops.object.select_all(action='SELECT')
+        bpy.ops.object.delete()
+        
+        ## Logging
+        print("Successfully deleted the objects!")
             
     else:
         print("Nothing to delete! Scene already empty.")
@@ -62,46 +57,49 @@ def deleteAll():
 
 # To apply all the modifiers on an object
 def apply_modifiers():
-    # Iterating over the selected objects
-    for obj in bpy.data.objects:
-        # Checking the selected objects
-        if(obj.select_get()):
-            ## Debugging
-            #print(obj.name)
-            obj.select_set(True)
-            
-            # Setting the selected object as active obj
-            bpy.context.view_layer.objects.active = obj
-            for modifiers in obj.modifiers:
-                # We don't bake the armature
-                if(modifiers.name == 'Armature'):
-                    continue
-                
-                else:
-                    bpy.ops.object.modifier_apply(modifier = modifiers.name)
-                    
-# To get the original object
-def getOriginalObject():
-    objList = []
-    
-    # Iterating over the selected objects and storying them in a list,
-    # because the number of objects will keep on expanding
-    for obj in bpy.data.objects:
-        # Checking the selected objects
-        if(obj.select_get()):
-            ## Debugging
-            #print(obj.name)
-            objList.append(obj)
+    # Getting a list of selected objects
+    objList = bpy.context.selected_objects
             
     ## Debugging
     #print(objList)
     
+    # Deselecting all objects
+    bpy.ops.object.select_all(action="DESELECT")
+    
+    # Iterating over the selected objects
     for obj in objList:
+        obj.select_set(True)
+        
+        # Setting the selected object as active obj
+        bpy.context.view_layer.objects.active = obj
+        
+        for modifiers in obj.modifiers:
+            # We don't bake/apply the armature
+            if(modifiers.name == 'Armature'):
+                continue
+                
+            else:
+                bpy.ops.object.modifier_apply(modifier = modifiers.name)
+            
         # Deselecting all objects
         bpy.ops.object.select_all(action="DESELECT")
+                    
+# To get the original object
+def getOriginalObject():
+    # Getting a list of selected objects
+    objList = bpy.context.selected_objects
+            
+    ## Debugging
+    #print(objList)
+    
+    # Deselecting all objects
+    bpy.ops.object.select_all(action="DESELECT")
         
+    for obj in objList:    
         # Making sure the object is selected
         obj.select_set(True)
+        
+        bpy.context.view_layer.objects.active = obj
         
         # Duplicating the object
         bpy.ops.object.duplicate_move()
@@ -110,6 +108,8 @@ def getOriginalObject():
         
         newObj = bpy.context.active_object
         newObj.select_set(True)
+        
+        bpy.context.view_layer.objects.active = newObj
         
         # Removing the modifiers to get the original object
         bpy.ops.object.delete_all_modifiers()

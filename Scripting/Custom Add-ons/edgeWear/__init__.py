@@ -84,8 +84,8 @@ PROPS2 = [
 ]            
 
 ## Function that calls the change param from edgeWear script
-def callEdgeWearChange(params):
-    edgeWear.changeEdgeParams(params[0], params[1], params[2],
+def callEdgeWearChange(context, params):
+    edgeWear.changeEdgeParams(context.selected_objects, params[0], params[1], params[2],
                               params[3], params[4], params[5], params[6],
                               params[7], params[8], params[9], params[10], params[11])
                               
@@ -152,7 +152,7 @@ class changeEdgeWearParameters(bpy.types.Operator):
             scene.remeshShading
         )
         
-        callEdgeWearChange(params)
+        callEdgeWearChange(context, params)
         
         return {'FINISHED'}
     

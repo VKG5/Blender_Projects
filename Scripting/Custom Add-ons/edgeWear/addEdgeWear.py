@@ -31,7 +31,7 @@ def appendFile():
         filename = fileName
     )
     
-    print("Successfully added the node network {fileName}")
+    print("Successfully added the node network {}".format(fileName))
     
 # For adding modifiers to selected object
 def addModifier(obj, name):
@@ -40,7 +40,7 @@ def addModifier(obj, name):
     # Adding the Remsh modifier
     obj.modifiers.new(modifName, name)
     
-    print("Successfully added the {name} modifier as {modifName}")
+    print("Successfully added the {} modifier as {}".format(name,modifName))
     
 '''
 We can access the Geometry Nodes Inputs using 
@@ -58,150 +58,109 @@ bpy.context.object.modifier[<nodeSystemName>]['Input_<inputPosition>'] = value
 bpy.context.object.update_tag() function after every change!!
 '''
 # Exposed parameters to update the edge wear
-def changeEdgeParams(wear=0.0, subDiv = 0, noiseRando = 0.0, noiseScale = 0.0, noiseDetail = 0.0, dist = 0.0, wearFac = 0.0, remeshMode = 'SHARP', remeshDetail = 0, remeshScale = 0.0, remeshSharpness = 0.0, remeshShade = False):
+def changeEdgeParams(objList, wear=0.0, subDiv = 0, noiseRando = 0.0, noiseScale = 0.0, noiseDetail = 0.0, dist = 0.0, wearFac = 0.0, remeshMode = 'SHARP', remeshDetail = 0, remeshScale = 0.0, remeshSharpness = 0.0, remeshShade = False):
+    # Deselecting all objects
+    bpy.ops.object.select_all(action="DESELECT")
+    
     # Iterating over the selected objects
-    for obj in bpy.data.objects:
-        # Checking the selected objects
-        if(obj.select_get()):
-            # Checking if the selected object is a mesh
-            if(obj.type == 'MESH'):
-                # Checking if the modifiers are already present or not
-                if(obj.modifiers):
-                    flag1, flag2 = True, True
-                    
-                    # Checking if the Nodes Modifier is present
-                    if(obj.modifiers[nodesModifName]):
-                        # change the Geo Nodes Params
-                        obj.modifiers[nodesModifName]['Input_2'] = subDiv
-                        obj.modifiers[nodesModifName]['Input_3'] = wear
-                        obj.modifiers[nodesModifName]['Input_4'] = noiseRando
-                        obj.modifiers[nodesModifName]['Input_5'] = noiseScale
-                        obj.modifiers[nodesModifName]['Input_6'] = noiseDetail
-                        obj.modifiers[nodesModifName]['Input_7'] = dist
-                        obj.modifiers[nodesModifName]['Input_8'] = wearFac
-                        
-                        flag1 = False
-                        
-                    # Checking if the Remesh Modifier is present
-                    if(obj.modifiers[remeshModifName]):
-                        # Changing the Remesh Modifier options
-                        obj.modifiers[remeshModifName].mode = remeshMode
-                        obj.modifiers[remeshModifName].octree_depth = remeshDetail
-                        obj.modifiers[remeshModifName].scale = remeshScale
-                        obj.modifiers[remeshModifName].sharpness = remeshSharpness
-                        obj.modifiers[remeshModifName].use_smooth_shade = remeshShade
-                        
-                        flag2 = False
-                        
-                    # Applying the changes even if one was present
-                    if(flag1 or flag2):
-                        # To update the changes in the viewport
-                        obj.update_tag()
-                        print("Successfully applied the changes!")
-                        
-                    else:
-                        print("NO RELEVANT MODIFIERS FOUND! PLEASE RE-CHECK")
-                        
-                else:
-                    print("No Modifers present!")
-                    
-            else:
-                print("The selected object is not valid! Select a MESH")
-
-# Exposed parameters to update the edge wear
-def changeEdgeParamsSingle(obj, wear=0.0, subDiv = 0, noiseRando = 0.0, noiseScale = 0.0, noiseDetail = 0.0, dist = 0.0, wearFac = 0.0, remeshMode = 'SHARP', remeshDetail = 0, remeshScale = 0.0, remeshSharpness = 0.0, remeshShade = False):
-    # Checking if the selected object is a mesh
-    if(obj.type == 'MESH'):
-        # Checking if the modifiers are already present or not
-        if(obj.modifiers):
-            flag1, flag2 = True, True
+    for obj in objList:
+        # Checking if the selected object is a mesh
+        if(obj.type == 'MESH'):
+            # Setting context
+            obj.select_set(True)
+            bpy.context.view_layer.objects.active = obj 
             
-            # Checking if the Nodes Modifier is present
-            if(obj.modifiers[nodesModifName]):
-                # change the Geo Nodes Params
-                obj.modifiers[nodesModifName]['Input_2'] = subDiv
-                obj.modifiers[nodesModifName]['Input_3'] = wear
-                obj.modifiers[nodesModifName]['Input_4'] = noiseRando
-                obj.modifiers[nodesModifName]['Input_5'] = noiseScale
-                obj.modifiers[nodesModifName]['Input_6'] = noiseDetail
-                obj.modifiers[nodesModifName]['Input_7'] = dist
-                obj.modifiers[nodesModifName]['Input_8'] = wearFac
+            # Checking if the modifiers are already present or not
+            if(obj.modifiers):
+                flag1, flag2 = True, True
                 
-                flag1 = False
-                
-            # Checking if the Remesh Modifier is present
-            if(obj.modifiers[remeshModifName]):
-                # Changing the Remesh Modifier options
-                obj.modifiers[remeshModifName].mode = remeshMode
-                obj.modifiers[remeshModifName].octree_depth = remeshDetail
-                obj.modifiers[remeshModifName].scale = remeshScale
-                obj.modifiers[remeshModifName].sharpness = remeshSharpness
-                obj.modifiers[remeshModifName].use_smooth_shade = remeshShade
-                
-                flag2 = False
-                
-            # Applying the changes even if one was present
-            if(flag1 or flag2):
-                # To update the changes in the viewport
-                obj.update_tag()
-                print("Successfully applied the changes!")
-                
+                # Checking if the Nodes Modifier is present
+                if(obj.modifiers[nodesModifName]):
+                    # change the Geo Nodes Params
+                    obj.modifiers[nodesModifName]['Input_2'] = subDiv
+                    obj.modifiers[nodesModifName]['Input_3'] = wear
+                    obj.modifiers[nodesModifName]['Input_4'] = noiseRando
+                    obj.modifiers[nodesModifName]['Input_5'] = noiseScale
+                    obj.modifiers[nodesModifName]['Input_6'] = noiseDetail
+                    obj.modifiers[nodesModifName]['Input_7'] = dist
+                    obj.modifiers[nodesModifName]['Input_8'] = wearFac
+                    
+                    flag1 = False
+                    
+                # Checking if the Remesh Modifier is present
+                if(obj.modifiers[remeshModifName]):
+                    # Changing the Remesh Modifier options
+                    obj.modifiers[remeshModifName].mode = remeshMode
+                    obj.modifiers[remeshModifName].octree_depth = remeshDetail
+                    obj.modifiers[remeshModifName].scale = remeshScale
+                    obj.modifiers[remeshModifName].sharpness = remeshSharpness
+                    obj.modifiers[remeshModifName].use_smooth_shade = remeshShade
+                    
+                    flag2 = False
+                    
+                # Applying the changes even if one was present
+                if(flag1 or flag2):
+                    # To update the changes in the viewport
+                    obj.update_tag()
+                    print("Successfully applied the changes to : {}".format(obj.name))
+                    
             else:
                 print("NO RELEVANT MODIFIERS FOUND! PLEASE RE-CHECK")
-                
+                        
         else:
-            print("No Modifers present!")
+            print("Selected object was not a mesh : {}".format(obj.name))
             
-    else:
-        print("The selected object is not valid! Select a MESH")
+        # Deselecting all objects
+        bpy.ops.object.select_all(action="DESELECT") 
         
 # Automating the Edge Wear process - Adding modifiers and adjusting their parameters
 def addEdgeWear():
+    # Getting a list of selected objects
+    objList = bpy.context.selected_objects
+            
+    ## Debugging
+    #print(objList)
+    
+    # Deselecting all objects
+    bpy.ops.object.select_all(action="DESELECT")
+    
     # Iterating over the selected objects
-    for obj in bpy.data.objects:
-        # Checking the selected objects
-        if(obj.select_get()):
-            # Checking if the object is valid
-            if(obj.type == 'MESH'):
-                # Importing the file
-                appendFile()
-                
-                # Cleaning the modifer stack
-                # Checking if the modifiers are already there
-                for modif in obj.modifiers:
-                    # Checking if there is already a Nodes modifiers
-                    if modif.name == nodesModifName or modif.name == remeshModifName:
-                        obj.modifiers.remove(modif)
-                        
-                obj.select_set(True)
-                
-                # Making sure it's in Object mode
-                bpy.ops.object.mode_set(mode='OBJECT')
-                
-                # Setting the selected object as active object
-                bpy.context.view_layer.objects.active = obj
-                
-                # If we want to add the Remesh Modifier
-                #if(name=='REMESH'):
-                addModifier(obj, 'REMESH')
-                
-                # Adding the Edge Wear setup
-                addModifier(obj, 'NODES')
-                
-                # Our procedural wear node is named chippedEdges
-                group = bpy.data.node_groups['chippedEdges']
-                
-                obj.modifiers[nodesModifName].node_group = group
-                
-                # Turning off show in Edit Mode Wireframe option
-                obj.modifiers[nodesModifName].show_in_editmode = False
-                
-                changeEdgeParamsSingle(obj, 1.0, 3, 0.5, 3.0, 2.0, 0.0, 6.0, 'SHARP', 3, 0.9, 1.0, False)
-                
-                print("Successfully added Edge Wear!")
-                
-            else:
-                print("Nothing selected!")
-                
-        else:
-            print("SELECT A MESH!")
+    for obj in objList:
+        # Checking if the object is valid
+        if(obj.type == 'MESH'):
+            # Importing the file
+            appendFile()
+            
+            # Cleaning the modifer stack
+            # Checking if the modifiers are already there
+            for modif in obj.modifiers:
+                # Checking if there is already a Nodes modifiers
+                if modif.name == nodesModifName or modif.name == remeshModifName:
+                    obj.modifiers.remove(modif)
+                    
+            obj.select_set(True)
+            
+            # Making sure it's in Object mode
+            bpy.ops.object.mode_set(mode='OBJECT')
+            
+            # Setting the selected object as active object
+            bpy.context.view_layer.objects.active = obj
+            
+            # If we want to add the Remesh Modifier
+            #if(name=='REMESH'):
+            addModifier(obj, 'REMESH')
+            
+            # Adding the Edge Wear setup
+            addModifier(obj, 'NODES')
+            
+            # Our procedural wear node is named chippedEdges
+            group = bpy.data.node_groups['chippedEdges']
+            
+            obj.modifiers[nodesModifName].node_group = group
+            
+            # Turning off show in Edit Mode Wireframe option
+            obj.modifiers[nodesModifName].show_in_editmode = False
+            
+    changeEdgeParams(objList, 1.0, 3, 0.5, 3.0, 2.0, 0.0, 6.0, 'SHARP', 3, 0.9, 1.0, False)
+            
+    print("Successfully added Edge Wear on selected object(s)!")
