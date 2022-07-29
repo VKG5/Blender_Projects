@@ -238,16 +238,35 @@ def save_file(name):
 ############################# UI FUNCTIONS ######################################
 # Opens a file select dialog and starts scanning the selected file.
 # Operator Class
-class ScanFileOperator(bpy.types.Operator):
-    bl_idname = "error.scan_file"
+class ScanFileOperator(bpy.types.Operator, ImportHelper):
+    bl_idname = "opr.scan_file"
     bl_label = "Scan file for return"
-    filepath = bpy.props.StringProperty(subtype="FILE_PATH")
- 
+    
+    # Filtering visible files
+    filter_glob: StringProperty(
+        default='*.zip;*.py',
+        options={'HIDDEN'}
+    )
+    
     def execute(self, context):
-        scanFile(self.filepath)
+        ## Debugging
+        # self.filepath - Note that this is a regular StringProperty 
+        # inside ImportHelper that we inherited when we subclassed it.
+        
+        #print(self.filepath)
+        # Splitting the filename and extension
+        
+        filepath, extension = os.path.splitext(self.filepath)
+        filename = os.path.basename(filepath)
+        dir = os.path.dirname(filepath)
+        
+        # Passing the arguments to install add-on
+        basicFuncs.installAddOn(dir, filename, extension)
         return {'FINISHED'}
  
+    # Invoking the actual window
     def invoke(self, context, event):
+        # Calling self Operator (Class) upon execution
         context.window_manager.fileselect_add(self)
         return {'RUNNING_MODAL'}
     
