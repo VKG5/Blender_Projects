@@ -233,3 +233,43 @@ def apply_modifiers():
 def save_file(name):
     # Save the file
     O.wm.save_as_mainfile(filepath=dir+name, filter_blender=False)
+
+
+############################# UI FUNCTIONS ######################################
+# Opens a file select dialog and starts scanning the selected file.
+# Operator Class
+class ScanFileOperator(bpy.types.Operator):
+    bl_idname = "error.scan_file"
+    bl_label = "Scan file for return"
+    filepath = bpy.props.StringProperty(subtype="FILE_PATH")
+ 
+    def execute(self, context):
+        scanFile(self.filepath)
+        return {'FINISHED'}
+ 
+    def invoke(self, context, event):
+        context.window_manager.fileselect_add(self)
+        return {'RUNNING_MODAL'}
+    
+#   The error message operator. When invoked, pops up a dialog 
+#   window with the given message.   
+class MessageOperator(bpy.types.Operator):
+    bl_idname = "error.message"
+    bl_label = "Message"
+    type = StringProperty()
+    message = StringProperty()
+
+    def execute(self, context):
+        self.report({'INFO'}, self.message)
+        print(self.message)
+        return {'FINISHED'}
+
+    def invoke(self, context, event):
+        wm = context.window_manager
+        return wm.invoke_popup(self, width=400)
+
+    def draw(self, context):
+        self.layout.label("A message has arrived")
+        row = self.layout.split(0.25)
+        row.prop(self, "type")
+        row.prop(self, "message")
