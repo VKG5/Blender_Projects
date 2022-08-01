@@ -42,6 +42,7 @@ def addModifier(obj, name):
     
     print("Successfully added the {} modifier as {}".format(name,modifName))
     
+
 '''
 We can access the Geometry Nodes Inputs using 
 bpy.context.object.modifier[<nodeSystemName>]['Input_<inputPosition>'] = value

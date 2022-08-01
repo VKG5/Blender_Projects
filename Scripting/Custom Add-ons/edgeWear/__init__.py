@@ -2,9 +2,9 @@
 bl_info = {
     'name' :'Edge Wear Generator',
     'author' : 'Varun Kumar Gupta',
-    'version' : (1,0,0),
+    'version' : (1,1,0),
     'blender' : (3,2,0),
-    'location' : '3D Viewport',
+    'location' : '3D Viewport > Sidebar > Lumi Tools',
     'description' : 'A simple add-on that generated Edge Wear in a completely Procedural manner',
     'warning' : '',
     'wiki_url' : '',
@@ -17,6 +17,7 @@ from . import basicFuncs as basicFuncs
 #basicFuncs = bpy.data.texts["basicFuncs.py"].as_module()
 from . import addEdgeWear as edgeWear
 #edgeWear = bpy.data.texts["addEdgeWear.py"].as_module()
+
 
 '''
 Main Code
@@ -94,30 +95,6 @@ def callEdgeWearChange(context, params):
 Class that calls code
 '''
 # Operator Class
-class clearScene(bpy.types.Operator):
-    bl_idname = "opr.used_to_clear_scene"
-    bl_label = "Clear Scene"
-    
-    def execute(self, context):
-        ## Debugging
-        #print(params)
-        
-        basicFuncs.deleteAll()
-        
-        return {'FINISHED'}
-    
-# Operator Class
-class applySelectedModifiers(bpy.types.Operator):
-    bl_idname = "opr.apply_selected_modifiers"
-    bl_label = "Apply Selcted Modifiers"
-    
-    def execute(self, context):
-        
-        basicFuncs.apply_modifiers()
-        
-        return {'FINISHED'}
-    
-# Operator Class
 class addEdgeWearOnSelected(bpy.types.Operator):
     bl_idname = "opr.add_edgewear"
     bl_label = "Add Edge Wear"
@@ -157,17 +134,6 @@ class changeEdgeWearParameters(bpy.types.Operator):
         return {'FINISHED'}
     
 # Operator Class
-class deleteModifiers(bpy.types.Operator):
-    bl_idname = "opr.delete_selected_modifiers"
-    bl_label = "Delete Modifiers"
-    
-    def execute(self, context):
-        
-        bpy.ops.object.delete_all_modifiers()
-        
-        return {'FINISHED'}
-    
-# Operator Class
 class getOriginal(bpy.types.Operator):
     bl_idname = "opr.get_original_object"
     bl_label = "Recover Original Object"
@@ -185,10 +151,11 @@ Class that generates the U
 # UI Class
 class demoUI(bpy.types.Panel):
     # Creates side panel in the 3D Viewport under Misc
-    bl_idname = "VIEW3D_PT_Demo_UI"
+    bl_idname = "VIEW3D_PT_EdgeWear_UI"
     bl_label = "Edge Wear Generator"
     bl_space_type = "VIEW_3D"
     bl_region_type = "UI"
+    bl_category = "Lumi_Tools"
     
     # To draw/create the actual panels
     def draw(self, context):
@@ -232,17 +199,6 @@ class demoUI(bpy.types.Panel):
         # Button to Get a copy of Original objects in the scene
         col.operator("opr.get_original_object", text="Recover")
         
-        self.layout.label(text="General Functions : ")
-        col = self.layout.column()
-        
-        # Button to run the basicFuncs() Script
-        col.operator("opr.used_to_clear_scene", text="Clear Scene")
-        
-        # Button to Get a copy of Original objects in the scene
-        col.operator("opr.apply_selected_modifiers", text="Apply Modifiers")
-        
-        # Button to Get a copy of Original objects in the scene
-        col.operator("opr.delete_selected_modifiers", text="Delete Modifiers")
 
 '''
 Driver Code
@@ -253,11 +209,8 @@ Don't skip this part!!
 # To auomate the installation and uninstallation of multiple scripts/classes
 # Just add the class names in this list
 CLASSES = [
-    clearScene,
-    applySelectedModifiers,
     addEdgeWearOnSelected,
     changeEdgeWearParameters,
-    deleteModifiers,
     getOriginal,
     demoUI
 ]    
