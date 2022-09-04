@@ -85,3 +85,5 @@ def generateLSystem(ax, gen, numR, ang, leng, ruleList):
     axiomFinal = lsystems(ax, gen, numR, ang, leng, ruleList)
     
     lsystemsGen.generateMesh(axiomFinal, leng, ang)
+    
+    bpy.context.scene.presetVal = 'custom'

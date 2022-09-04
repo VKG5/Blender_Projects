@@ -15,8 +15,8 @@ import bpy
 import os
 from bpy.props import *
 
-from . import LSystems as lsystems
-#lsystems = bpy.data.texts["LSystems.py"].as_module()
+#from . import LSystems as lsystems
+lsystems = bpy.data.texts["l-systems.py"].as_module()
 
 '''
 Main Code
@@ -25,6 +25,18 @@ Main Code
 # Properties/Inputs for our add-on
 # Format : ("Name", bpy.props.<propertyName> (Int, String, Enum, Float, etc.)
 PROPS = [
+    ## Presets
+    ("presetVal", bpy.props.EnumProperty( name = 'Presets ',
+                                      description = 'Some presets for you to play around with',
+                                      items = [
+                                        ('custom', 'None', 'Custom Pattern'),
+                                        ('kochSnow', 'Koch Snowflake', 'A variant of the Koch curve to create a snowflake'),
+                                        ('koch', 'Koch Curve', 'A variant of the Koch curve which uses only right angles'),
+                                        ('sierpinski', 'Sierpinski Triangle', 'The Sierpinski triangle'),
+                                        ('sierpinskiCurve', 'Sierpinski Arrowhead Curve', 'Sierpiński arrowhead curve'),
+                                        ('dragon', 'Dragon Curve', 'The dragon curve')
+                                        ])),
+              
     ("axiom", bpy.props.StringProperty( name = 'Axiom',
                                         description = 'The starting point of our L-System',
                                         default = "A" )),
@@ -66,6 +78,60 @@ PROPS = [
                                         default = 'E:CD' )),                                     
 ]
 
+## Class for pre-setting values
+def presetClass(preset):
+    match preset:
+        case 'kochSnow':
+            bpy.context.scene.axiom = 'F--F--F'
+            bpy.context.scene.generations = 5
+            bpy.context.scene.numRules = 1
+            bpy.context.scene.angle = 60
+            bpy.context.scene.length = 1.0
+            bpy.context.scene.rule1 = 'F:F+F--F+F'
+            return
+        
+        case 'koch':
+            bpy.context.scene.axiom = 'F'
+            bpy.context.scene.generations = 3
+            bpy.context.scene.numRules = 1
+            bpy.context.scene.angle = 90
+            bpy.context.scene.length = 1.0
+            bpy.context.scene.rule1 = 'F:F+F-F-F+F'
+            return
+            
+        case 'sierpinski':
+            bpy.context.scene.axiom = 'F-G-G'
+            bpy.context.scene.generations = 4
+            bpy.context.scene.numRules = 2
+            bpy.context.scene.angle = 120
+            bpy.context.scene.length = 1.0
+            bpy.context.scene.rule1 = 'F:F-G+F+G-F'
+            bpy.context.scene.rule2 = 'G:GG'
+            return
+            
+        case 'sierpinskiCurve':
+            bpy.context.scene.axiom = 'A'
+            bpy.context.scene.generations = 4
+            bpy.context.scene.numRules = 2
+            bpy.context.scene.angle = 60
+            bpy.context.scene.length = 1.0
+            bpy.context.scene.rule1 = 'A:B-A-B'
+            bpy.context.scene.rule2 = 'B:A+B+A'
+            return
+        
+        case 'dragon':
+            bpy.context.scene.axiom = 'F'
+            bpy.context.scene.generations = 10
+            bpy.context.scene.numRules = 2
+            bpy.context.scene.angle = 90
+            bpy.context.scene.length = 1.0
+            bpy.context.scene.rule1 = 'F:F+G'
+            bpy.context.scene.rule2 = 'G:F-G'
+            return
+        
+        case default:
+            return
+        
 ## Cases for passing the selected rules
 def passRulesNum(num):
     match num:
@@ -108,8 +174,11 @@ class generateLSystems(bpy.types.Operator):
         ## Debugging
         #print(params)
         
-        passRules = passRulesNum( bpy.context.scene.numRules )
-    
+        # Pre-setting the values
+        presetClass(context.scene.presetVal)
+        
+        passRules = passRulesNum( bpy.context.scene.numRules )    
+        
         lsystems.generateLSystem( bpy.context.scene.axiom, 
                                   bpy.context.scene.generations, 
                                   bpy.context.scene.numRules, 
@@ -141,7 +210,7 @@ class demoUI(bpy.types.Panel):
         layout.label(text="L-Systems Parameters: ")
         col = layout.column(align = True)
               
-        for(prop_name, _) in PROPS[:5]:
+        for(prop_name, _) in PROPS[:6]:
             row = col.row(align = True)
             row.prop(context.scene, prop_name)    
         
@@ -153,13 +222,14 @@ class demoUI(bpy.types.Panel):
         col.scale_y = 1.5
         ## Debugging
         #print(bpy.context.scene.numRules)
-        for(prop_name, _) in PROPS[5 : 5+(bpy.context.scene.numRules)]:
+        for(prop_name, _) in PROPS[6 : 6+(bpy.context.scene.numRules)]:
             row = col.row(align = True)
             row.prop(context.scene, prop_name)
         
         col = layout.column(align = True)
         col.scale_y = 2
         col.operator("opr.generate_l_system", text="Generate System", icon = 'DISCLOSURE_TRI_RIGHT')
+        
         
 '''
 Driver Code
