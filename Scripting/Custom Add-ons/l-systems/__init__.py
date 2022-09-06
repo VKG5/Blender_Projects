@@ -15,8 +15,8 @@ import bpy
 import os
 from bpy.props import *
 
-#from . import LSystems as lsystems
-lsystems = bpy.data.texts["l-systems.py"].as_module()
+from . import LSystems as lsystems
+#lsystems = bpy.data.texts["l-systems.py"].as_module()
 
 '''
 Main Code
