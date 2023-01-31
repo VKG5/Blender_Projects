@@ -2,8 +2,8 @@
 bl_info = {
     'name' :'L-System Generator',
     'author' : 'Varun Kumar Gupta',
-    'version' : (1,2,0),
-    'blender' : (3,3,0),
+    'version' : (1,1,0),
+    'blender' : (3,2,0),
     'location' : '3D Viewport',
     'description' : 'L-System Generator based on Axioms and Strings',
     'warning' : '',
@@ -34,9 +34,7 @@ PROPS = [
                                         ('koch', 'Koch Curve', 'A variant of the Koch curve which uses only right angles'),
                                         ('sierpinski', 'Sierpinski Triangle', 'The Sierpinski triangle'),
                                         ('sierpinskiCurve', 'Sierpinski Arrowhead Curve', 'Sierpiński arrowhead curve'),
-                                        ('dragon', 'Dragon Curve', 'The dragon curve'),
-                                        ('binaryTree', 'Fractal Binary Tree', 'A fractal binary tree'),
-                                        ('fractalPlant', 'Fractal Plant', 'Barnsley fern')
+                                        ('dragon', 'Dragon Curve', 'The dragon curve')
                                         ])),
               
     ("axiom", bpy.props.StringProperty( name = 'Axiom',
@@ -131,26 +129,6 @@ def presetClass(preset):
             bpy.context.scene.rule2 = 'G:F-G'
             return
         
-        case 'binaryTree':
-            bpy.context.scene.axiom = 'F'
-            bpy.context.scene.generations = 7
-            bpy.context.scene.numRules = 2
-            bpy.context.scene.angle = 45
-            bpy.context.scene.length = 1.0
-            bpy.context.scene.rule1 = 'F:G[-F]+F'
-            bpy.context.scene.rule2 = 'G:GG'
-            return
-        
-        case 'fractalPlant':
-            bpy.context.scene.axiom = 'X'
-            bpy.context.scene.generations = 6
-            bpy.context.scene.numRules = 2
-            bpy.context.scene.angle = 25
-            bpy.context.scene.length = 1.0
-            bpy.context.scene.rule1 = 'X:F+[[X]-X]-F[-FX]+X'
-            bpy.context.scene.rule2 = 'F:FF'
-            return
-        
         case default:
             return
         
@@ -189,8 +167,8 @@ Class that calls code
 # Operator Class
 class generateLSystems(bpy.types.Operator):
     bl_idname = "opr.generate_l_system"
-    bl_label = "Generate L-System(s)"
-    bl_description = "Generate an L-System based on Axioms, Generations and parameters provided"
+    bl_label = "Clear Scene"
+    bl_description = "Completely wipe the scene; including collections, nodes and everything present"
     
     def execute(self, context):
         ## Debugging
