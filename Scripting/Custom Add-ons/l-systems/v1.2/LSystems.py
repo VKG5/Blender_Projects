@@ -2,7 +2,7 @@ import bpy
 import os
 
 # Getting path
-dir = os.path.dirname(bpy.data.filepath)
+dir = os.path.dirname(os.path.realpath(__file__))
 
 from . import LSystemsMeshGen as lsystemsGen
 #lsystemsGen = bpy.data.texts["l-systems-mesh-gen.py"].as_module()
